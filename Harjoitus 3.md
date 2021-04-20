@@ -10,8 +10,11 @@ Aloitin luomalla GitHub-kansiooni (https://github.com/bgm064/schoulu) MarkDown-t
 Tämän jälkeen tallensin ensimmäisen version tiedostosta ja annoin koneellani komennon, jolla sain päivitettyä tiedoston myös koneelleni.
 
     $ git add . && git commit; git pull && git push
+    
+Komennon päivitin muistiini Tero Karvisen ohjeista osoitteesta: http://terokarvinen.com/2016/publish-your-project-with-github/.
 
 ## d) Näytä omalla git-varastollasi esimerkit komennoista ‘git log’, ‘git diff’ ja ‘git blame’. Selitä tulokset.
+
 
 ## e) Tee tyhmä muutos gittiin, älä tee commit:tia. Tuhoa huonot muutokset ‘git reset –hard’. Huomaa, että tässä toiminnossa ei ole peruutusnappia.
 
