@@ -28,23 +28,42 @@ Author: bgm064 <82582770+bgm064@users.noreply.github.com>
 Date:   Tue Apr 20 12:53:50 2021 +0300
 
    Create Harjoitus 3.md
-
-commit d39b7448be7e845d27c0e064eb98f26589f3e7ee
-Author: bgm064 <82582770+bgm064@users.noreply.github.com>
-Date:   Thu Apr 15 13:56:41 2021 +0300
-
-   Create README.md
-
-commit 6562c8d8b3fa12f6af25c30b4ab5f8a539ef9753
-Author: bgm064 <82582770+bgm064@users.noreply.github.com>
-Date:   Thu Apr 15 13:52:07 2021 +0300
-
-   Initial commit
 ```
 
 Muutoslokissa kerrotaan mitä muutoksia on tehty ja milloin.
 
+Seuraavaksi kokeilin 'git diff' komentoa. Komento ei tehnyt mitään, sillä koneeni ja GitHubin kansioiden sisällössä ei ollut eroavaisuuksia.
 
+Loin tiedoston testitiedoston ja lisäsin sekä committasin sen Gitiin.
+
+        $ sudo nano difftesti.txt
+        
+        $ git add . && git commit
+
+Tämän jälkeen poistin tiedoston koneeltani 'rm' komennolla jonka jälkeen annoin uudestaan 'git diff' komennon ja sain vastaukseksi seuraavan:
+```
+diff --git a/difftesti.txt b/difftesti.txt
+deleted file mode 100644
+index e432d0f..0000000
+--- a/difftesti.txt
++++ /dev/null
+@@ -1 +0,0 @@
+-Tämä on testi.
+```
+
+Kyseinen komento siis tulostaa tiedon koneen ja GitHubin kansioiden välisistä eroista.
+
+Lopuksi kokeilin vielä 'git blame' komentoa. Vastaukseksi sain seuraavan:
+
+```
+4f612155 (bgm064 2021-04-20 13:48:36 +0300 24)    Update Harjoitus 3.md
+4f612155 (bgm064 2021-04-20 13:48:36 +0300 25) 
+4f612155 (bgm064 2021-04-20 13:48:36 +0300 26) commit 84c6f562d055bf32c104ff035fd251d42058e697
+4f612155 (bgm064 2021-04-20 13:48:36 +0300 27) Author: bgm064 <82582770+bgm064@users.noreply.github.com>
+4f612155 (bgm064 2021-04-20 13:48:36 +0300 28) Date:   Tue Apr 20 12:53:50 2021 +0300
+```
+
+Komento tulostaa tiedon siitä kuka viimeisimmät muutokset on tehnyt.
 
 ## e) Tee tyhmä muutos gittiin, älä tee commit:tia. Tuhoa huonot muutokset ‘git reset –hard’. Huomaa, että tässä toiminnossa ei ole peruutusnappia.
 
