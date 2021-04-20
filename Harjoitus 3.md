@@ -1,6 +1,6 @@
-*Tehtävät on saatu osoitteesta: https://terokarvinen.com/2021/configuration-management-systems-palvelinten-hallinta-ict4tn022-spring-2021/#laksyt.
+**Tehtävät on saatu osoitteesta: https://terokarvinen.com/2021/configuration-management-systems-palvelinten-hallinta-ict4tn022-spring-2021/#laksyt.*
 
-*Tehtäviä varten on tehty puhdas asennus kurssin opettajan suosimasta Xubuntusta VirtualBoxille.
+**Tehtäviä varten on tehty puhdas asennus kurssin opettajan suosimasta Xubuntusta VirtualBoxille.*
 
 # Harjoitus 3
 
@@ -66,9 +66,219 @@ Lopuksi kokeilin vielä 'git blame' komentoa. Vastaukseksi sain seuraavan:
 Komento tulostaa tiedon siitä kuka viimeisimmät muutokset on tehnyt.
 
 ## e) Tee tyhmä muutos gittiin, älä tee commit:tia. Tuhoa huonot muutokset ‘git reset –hard’. Huomaa, että tässä toiminnossa ei ole peruutusnappia.
+Poistin koneeni Git-kansiosta 'README.md' tiedoston 'rm' komennolla. Annoin tämän jälkeen komennon 'git reset --hard' joka palautti poistetun tiedoston.
+```
+jani@jani-vb:~/schoulu$ ls
+'Harjoitus 3.md'   LICENSE   README.md
+jani@jani-vb:~/schoulu$ sudo rm README.md 
+jani@jani-vb:~/schoulu$ ls
+'Harjoitus 3.md'   LICENSE
+jani@jani-vb:~/schoulu$ git reset --hard
+HEAD is now at 5c098d0 Merge branch 'main' of https://github.com/bgm064/schoulu into main
+jani@jani-vb:~/schoulu$ ls
+'Harjoitus 3.md'   LICENSE   README.md
+```
 
-## f) Tee uusi salt-moduli. Voit asentaa ja konfiguroida minkä vain uuden ohjelman: demonin, työpöytäohjelman tai komentokehotteesta toimivan ohjelman. Käytä tarvittaessa ‘find -printf “%T+ %p\n”|sort’ löytääksesi uudet asetustiedostot. (Tietysti eri ohjelma kuin aiemmissa tehtävissä, tarkoitushan on harjoitella Salttia)
+## f) Tee uusi salt-moduli.
+Päätin asentaa GIMP:in Saltin avulla. Aloitin luomalla kansion tälle ohjelmalle '/srv/salt' hakemistoon.
+
+        $ sudo mkdir gimp
+
+Tämän jälkeen vaihdoin kyseiseen kansioon 'cd' komennolla ja loin sen sisälle sls-tiedoston.
+
+        $ sudoedit init.sls
+
+Tähän tiedostoon lisäsin seuraavan funktion:
+
+```
+gimp:
+  pkg.installed
+```
+
+Seuraavaksi ajoin luomani tilan salt minionilla.
+
+        $ sudo salt '*' state.apply gimp
+        
+Noin minuutin odottamisen jälkeen sain ilmoituksen onnistuneesta asennuksesta:
+
+        jani:
+          ID: gimp
+    Function: pkg.installed
+      Result: True
+     Comment: The following packages were installed/updated: gimp
+     Started: 14:40:17.306023
+    Duration: 57975.845 ms  
+
+<details>
+    <summary>Changes:</summary>
+
+              ----------
+              gimp:
+                  ----------
+                  new:
+                      2.8.22-1
+                  old:
+              gimp-data:
+                  ----------
+                  new:
+                      2.8.22-1
+                  old:
+              gimp-python:
+                  ----------
+                  new:
+                      1
+                  old:
+              libamd2:
+                  ----------
+                  new:
+                      1:5.1.2-2
+                  old:
+              libbabl-0.1-0:
+                  ----------
+                  new:
+                      0.1.44-1
+                  old:
+              libblas.so.3:
+                  ----------
+                  new:
+                      1
+                  old:
+              libblas3:
+                  ----------
+                  new:
+                      3.7.1-4ubuntu1
+                  old:
+              libcamd2:
+                  ----------
+                  new:
+                      1:5.1.2-2
+                  old:
+              libccolamd2:
+                  ----------
+                  new:
+                      1:5.1.2-2
+                  old:
+              libcholmod3:
+                  ----------
+                  new:
+                      1:5.1.2-2
+                  old:
+              libgegl-0.3-0:
+                  ----------
+                  new:
+                      0.3.30-1ubuntu1
+                  old:
+              libgfortran4:
+                  ----------
+                  new:
+                      7.5.0-3ubuntu1~18.04
+                  old:
+              libgimp2.0:
+                  ----------
+                  new:
+                      2.8.22-1
+                  old:
+              liblapack.so.3:
+                  ----------
+                  new:
+                      1
+                  old:
+              liblapack3:
+                  ----------
+                  new:
+                      3.7.1-4ubuntu1
+                  old:
+              libmetis5:
+                  ----------
+                  new:
+                      5.1.0.dfsg-5
+                  old:
+              libmng2:
+                  ----------
+                  new:
+                      2.0.2-0ubuntu3
+                  old:
+              libraw16:
+                  ----------
+                  new:
+                      0.18.8-1ubuntu0.3
+                  old:
+              libumfpack5:
+                  ----------
+                  new:
+                      1:5.1.2-2
+                  old:
+              python-cairo:
+                  ----------
+                  new:
+                      1.16.2-1
+                  old:
+              python-gobject-2:
+                  ----------
+                  new:
+                      2.28.6-12ubuntu3
+                  old:
+              python-gtk2:
+                  ----------
+                  new:
+                      2.24.0-5.1ubuntu2
+                  old:
+              python2.7-cairo:
+                  ----------
+                  new:
+                      1
+                  old:
+              python2.7-gobject:
+                  ----------
+                  new:
+                      1
+                  old:
+              python2.7-gobject-2:
+                  ----------
+                  new:
+                      1
+                  old:
+
+</details>
+
+```
+Summary for jani
+------------
+Succeeded: 1 (changed=1)
+Failed:    0
+------------
+Total states run:     1
+Total run time:  57.976 s
+```
+
+Ajoin tilan vielä uudestaan ja sain ilmoituksen, että ohjelma on jo asennettu.
+
+```
+jani:
+----------
+          ID: gimp
+    Function: pkg.installed
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 15:02:53.190934
+    Duration: 1748.847 ms
+     Changes:   
+
+Summary for jani
+------------
+Succeeded: 1
+Failed:    0
+------------
+Total states run:     1
+Total run time:   1.749 s
+```
+
+![GIMP](https://user-images.githubusercontent.com/82582770/115393370-48c19f00-a1ea-11eb-9069-000535914a0c.JPG)
+
 
 ## Lähteet
 
 Tero Karvinen, 2016, Publish Your Project... Luettavissa: http://terokarvinen.com/2016/publish-your-project-with-github/. Luettu: 20.4.2021.
+
+GitHub, 2014, Mastering Markdown. Luettavissa: https://guides.github.com/features/mastering-markdown/. Luettu 20.4.2021.
+
