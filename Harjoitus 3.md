@@ -275,6 +275,166 @@ Total run time:   1.749 s
 
 ![GIMP](https://user-images.githubusercontent.com/82582770/115393370-48c19f00-a1ea-11eb-9069-000535914a0c.JPG)
 
+## Päivitys 22.4.2021
+Alkuperäisessä tehtävässä en löytänyt osioon **f)** GIMP:in konfigurointitiedostoa. Tehtävä olisi varmasti mennyt alkuperäiselläkin tavalla läpi, mutta tämä asia jäi kuitenkin häiritsemään minua ja ryhdyin vielä selaamaan GIMP:in manuaalisivuja, komennolla 'man gimp'. Löysin vastauksen kysymykseeni 'FILES' osion alta: 
+
+```
+Most  GIMP configuration is read in from the user's init file, $HOME/.gimp-2.8/gimprc. 
+The system wide equivalent is in /etc/gimp/2.0/gimprc.
+```
+
+Niimpä lähdin jatkamaan vielä tehtävän loppuun asti. Tein sattumanvaraisia muokkauksia GIMP:iin sen graafisen liittymän kautta ja katsoin olivatko tiedot päivittyneet aiemmin tyhjään (#kommentit lukuunottamatta) yllä mainittuun gimprc-tiedostoon 'cat' komennolla. Tiedostoon näytti päivittyneen asetuksia:
+
+<details>
+    <summary>gimprc</summary>
+GIMP gimprc
+
+This is your personal gimprc file.  Any variable defined in this file takes
+precedence over the value defined in the system-wide gimprc:
+/etc/gimp/2.0/gimprc
+Most values can be set within GIMP by changing some options in the
+Preferences dialog.
+
+(default-image
+    (width 1024)
+    (height 768)
+    (unit pixels)
+    (xresolution 72.000000)
+    (yresolution 72.000000)
+    (resolution-unit inches)
+    (image-type rgb)
+    (fill-type background-fill)
+    (comment ""))
+(default-view
+    (show-menubar yes)
+    (show-statusbar yes)
+    (show-rulers yes)
+    (show-scrollbars yes)
+    (show-selection yes)
+    (show-layer-boundary yes)
+    (show-guides yes)
+    (show-grid yes)
+    (show-sample-points yes)
+    (padding-mode dark-check)
+    (padding-color (color-rgb 1.000000 1.000000 1.000000)))
+(default-fullscreen-view
+    (show-menubar yes)
+    (show-statusbar yes)
+    (show-rulers yes)
+    (show-scrollbars yes)
+    (show-selection yes)
+    (show-layer-boundary yes)
+    (show-guides yes)
+    (show-grid no)
+    (show-sample-points yes)
+    (padding-mode dark-check)
+    (padding-color (color-rgb 1.000000 1.000000 1.000000)))
+(theme "Small")
+
+end of gimprc
+</details>
+
+Seuraavaksi kopion kyseisen tiedoston '/salt/' hakemistooni luomaan kansioon ja lähdin muokkaamaan aikaisemmin luomaani sls-tiedostoa.
+
+        $ sudo cp /home/jani/.gimp-2.8/gimprc /srv/salt/gimp
+
+        $ cd /srv/salt/gimp
+
+        $ sudoedit init.sls
+        
+Lisäsin tiedostoon tämän päivän tunnilla opitun funktion:
+
+```
+/home/jani/.gimp-2.8/gimprc:
+  file.managed:
+    - source: salt://gimp/gimprc
+```
+
+Tämän jälkeen ajoin muokaamani tilan.
+
+        $ sudo salt '*' state.apply gimp
+
+Tila palautui onnistuneena:
+
+
+```
+jani:
+----------
+          ID: gimp
+    Function: pkg.installed
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 20:46:49.645074
+    Duration: 1741.583 ms
+     Changes:   
+----------
+          ID: /home/jani/.gimp-2.8/gimprc
+    Function: file.managed
+      Result: True
+     Comment: File /home/jani/.gimp-2.8/gimprc is in the correct state
+     Started: 20:46:51.390591
+    Duration: 16.269 ms
+     Changes:   
+
+Summary for jani
+------------
+Succeeded: 2
+Failed:    0
+------------
+Total states run:     2
+Total run time:   1.758 s
+```
+
+Tein vielä viimeisen testauksen poistamalla alkuperäisen asetustiedoston ja ajamalla tilan uudestaan.
+
+        $ sudo rm /home/jani/.gimp-2.8/gimprc
+        
+(Varmistin tiedoston poistuneen)
+
+        $ ls /home/jani/.gimp-2.8/
+
+        $ sudo salt '*' state.apply gimp
+
+Tila palautui onnistuneena takaisin.
+
+```
+jani:
+----------
+          ID: gimp
+    Function: pkg.installed
+      Result: True
+     Comment: All specified packages are already installed
+     Started: 20:51:53.011392
+    Duration: 1749.477 ms
+     Changes:   
+----------
+          ID: /home/jani/.gimp-2.8/gimprc
+    Function: file.managed
+      Result: True
+     Comment: File /home/jani/.gimp-2.8/gimprc updated
+     Started: 20:51:54.764769
+    Duration: 17.153 ms
+     Changes:   
+              ----------
+              diff:
+                  New file
+              mode:
+                  0644
+
+Summary for jani
+------------
+Succeeded: 2 (changed=1)
+Failed:    0
+------------
+Total states run:     2
+Total run time:   1.767 s
+```
+
+Tein vielä viimeisen varmistuksen tarkistamalla yllä poistetun tiedoston palautuneen alkuperäiseen kansioonsa tehtyjen muutoksien kera.
+
+        $ cat /home/jani/.gimp-2.8/gimprc
+        
+Kaikki oli niin kuin piti. Tehtävä oli onnistunut.
 
 ## Lähteet
 
