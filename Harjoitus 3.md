@@ -34,7 +34,7 @@ Muutoslokissa kerrotaan mitä muutoksia on tehty ja milloin.
 
 Seuraavaksi kokeilin 'git diff' komentoa. Komento ei tehnyt mitään, sillä koneeni ja GitHubin kansioiden sisällössä ei ollut eroavaisuuksia.
 
-Loin tiedoston testitiedoston ja lisäsin sekä committasin sen Gitiin.
+Loin testitiedoston ja lisäsin sekä committasin sen Gitiin.
 
         $ sudo nano difftesti.txt
         
@@ -350,7 +350,7 @@ Lisäsin tiedostoon tämän päivän tunnilla opitun funktion:
     - source: salt://gimp/gimprc
 ```
 
-Tämän jälkeen ajoin muokaamani tilan.
+Tämän jälkeen ajoin muokkaamani tilan.
 
         $ sudo salt '*' state.apply gimp
 
