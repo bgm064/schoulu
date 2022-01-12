@@ -1,1 +1,2 @@
-Contains some of my IT school work
+Contains some of my work on the Haaga-Helia school course Server Management (in Finnish). You can find more on the subject on my 
+[website](https://bgm064.wordpress.com/2021/04/06/palvelinten-hallinta-2021-h1/). 
